@@ -2,10 +2,24 @@ import React, { Component } from 'react';
 import api from '../api';
 
 class RegisterForm extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            username : '',
+            password : '',
+        }
+    }
+    handleFieldChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({
+            [name]: value
+        });
+        
+    }
     handleSubmit = async(e) => {
         e.preventDefault();
-        const username = e.target.elements.username.value;
-        const password = e.target.elements.password.value;
+        const {username, password} = this.state;
         // 사용자 이름 중복 체크 
         const {data: users} = await api.get('/users',{
            params: {
@@ -25,11 +39,13 @@ class RegisterForm extends Component {
     }
 
     render() {
+        console.log(this.state);
+        const {username, password} = this.state;
         return (
             <form onSubmit={(e) => this.handleSubmit(e)}>
                 <h1>RegisterForm</h1>
-                <input tyep="text" name="username" />
-                <input tyep="password" name="password" />
+                <input type="text" name="username" onChange={(e) => this.handleFieldChange(e)} value={username}/>
+                <input type="password" name="password" onChange={(e) => this.handleFieldChange(e)} value={password}/>
                 <button>register</button>
             </form>
         );
