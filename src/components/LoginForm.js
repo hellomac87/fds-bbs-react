@@ -2,6 +2,17 @@ import React, { Component, Fragment } from 'react';
 import api from '../api';
 
 class LoginForm extends Component {
+    constructor(props){
+        super(props);
+
+        this.usernameRef = React.createRef();
+        this.passwordRef = React.createRef();
+    }
+
+    componentDidMount(){
+        this.usernameRef.current.focus();
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -21,8 +32,8 @@ class LoginForm extends Component {
             <Fragment>
                 <form onSubmit={(e) => this.handleSubmit(e)}>
                     <h1>LoginForm</h1>
-                    <input tyep="text" name="username" />
-                    <input tyep="password" name="password" />
+                    <input tyep="text" name="username" ref={this.usernameRef}/>
+                    <input tyep="password" name="password" ref={this.passwordRef}/>
                     <button>login</button>
                 </form>
                 <button onClick={(e) => onRegister(e)}>register</button>
