@@ -6,7 +6,7 @@ class PostForm extends Component {
         super(props);
         this.state = {
             title: '',
-            body: ''
+            body: '',
         }
     }
     async componentDidMount(){
@@ -52,9 +52,6 @@ class PostForm extends Component {
         console.log(this.state);
         const {title, body} = this.state;
         const { onPostListPage, editMode } = this.props;
-        if(!title){
-            return 'loading...'
-        }
         return (
             <div className="post-form">
                 <form onSubmit={(e) => this.handleSubmit(e)}>
