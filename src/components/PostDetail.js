@@ -5,7 +5,7 @@ class PostDetail extends Component {
     constructor(props){
         super(props);
         this.state = {
-            post: {}
+            post: null
         }
     }
     async componentDidMount(){
@@ -19,6 +19,9 @@ class PostDetail extends Component {
         const {post} = this.state;
         const {postId} = this.props;
         const { onPostListPage, onPostEditPage } = this.props;
+        if(!post){
+            return 'loading...'
+        }
         return (
             <div>
                 <h1>게시물 상세</h1>

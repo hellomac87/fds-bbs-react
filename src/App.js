@@ -24,6 +24,7 @@ class App extends Component {
   handlePostListPage = () => {
     this.setState({
       page: 'post-list',
+      editMode: false
     })
   }
 

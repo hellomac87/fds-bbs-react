@@ -11,10 +11,10 @@ class PostForm extends Component {
     }
     async componentDidMount(){
         if (this.props.editMode){
-            const {data} = await api.get(`/posts/${this.props.postId}`);
+            const {data: {title, body}} = await api.get(`/posts/${this.props.postId}`);
             this.setState({
-                title: data.title,
-                body: data.body
+                title,
+                body
             })
         }
     }
@@ -52,6 +52,9 @@ class PostForm extends Component {
         console.log(this.state);
         const {title, body} = this.state;
         const { onPostListPage, editMode } = this.props;
+        if(!title){
+            return 'loading...'
+        }
         return (
             <div className="post-form">
                 <form onSubmit={(e) => this.handleSubmit(e)}>
