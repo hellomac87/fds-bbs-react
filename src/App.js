@@ -17,8 +17,14 @@ class App extends Component {
     this.state = {
       page: 'post-list',
       // 현재 보고있는 게시물의 아이디
-      postId: null
+      postId: null,
+      editMode: false
     }
+  }
+  handlePostListPage = () => {
+    this.setState({
+      page: 'post-list',
+    })
   }
 
   handlePostDetailPage = (id) => {
@@ -39,9 +45,16 @@ class App extends Component {
       page: 'post-form'
     })
   }
+  handlePostEditPage = (postId) => {
+    console.log('handlePostEditPage', postId);
+    this.setState({
+      page: 'post-form',
+      editMode: true
+    })
+  }
 
   render() {
-    const { page, postId } = this.state;
+    const { page, postId, editMode } = this.state;
     return (
       <div className="App">
       {
@@ -52,9 +65,9 @@ class App extends Component {
         ) : page === 'post-list' ? (
           <PostList onPostDetailPage={this.handlePostDetailPage} onPostFormPage={this.handlePostFormPage}/>
         ) : page === 'post-detail' ? (
-          <PostDetail postId={postId}/> 
+          <PostDetail postId={postId} onPostListPage={this.handlePostListPage} onPostEditPage={this.handlePostEditPage}/> 
         ) : page === 'post-form' ? (
-          <PostForm onPostDetailPage={this.handlePostDetailPage}/>
+          <PostForm editMode={editMode} postId={postId} onPostDetailPage={this.handlePostDetailPage} onPostListPage={this.handlePostListPage}/>
         ) : null
       }
       </div>

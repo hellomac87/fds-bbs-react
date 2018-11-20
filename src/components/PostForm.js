@@ -9,15 +9,36 @@ class PostForm extends Component {
             body: ''
         }
     }
-
+    async componentDidMount(){
+        if (this.props.editMode){
+            const {data} = await api.get(`/posts/${this.props.postId}`);
+            this.setState({
+                title: data.title,
+                body: data.body
+            })
+        }
+    }
     handleSubmit = async (e) => {
         e.preventDefault();
-        const {title, body} = this.state;
-        const {data} = await api.post('/posts',{
-            title,
-            body
-        });
-        this.props.onPostDetailPage(data.id)
+        const { title, body } = this.state;
+        let postId;
+        if (this.props.editMode){
+            const { data } = await api.patch(`/posts/${this.props.postId}`, {
+                title,
+                body
+            });
+            postId = data.id;
+        }else{
+            const { data } = await api.post('/posts', {
+                title,
+                body
+            });
+            postId = data.id;
+        }
+
+        this.props.onPostDetailPage(postId)
+        
+        
     }
     handleInputChange = (e) => {
         const value = e.target.value;
@@ -30,14 +51,25 @@ class PostForm extends Component {
     render() {
         console.log(this.state);
         const {title, body} = this.state;
-        
+        const { onPostListPage, editMode } = this.props;
         return (
-            <form onSubmit={(e) => this.handleSubmit(e)} className="post-form">
-                <h1>postForm</h1>
-                <input type="text" name="title" value={title} onChange={(e)=> this.handleInputChange(e)}placeholder="title"/>
-                <input type="text" name="body" value={body} onChange={(e)=> this.handleInputChange(e)}placeholder="body"/>
-                <button>write</button>
-            </form>
+            <div className="post-form">
+                <form onSubmit={(e) => this.handleSubmit(e)}>
+                    <h1>postForm</h1>
+                    <input type="text" name="title" value={title} onChange={(e) => this.handleInputChange(e)} placeholder="title" />
+                    <textarea type="text" name="body" value={body} onChange={(e) => this.handleInputChange(e)} placeholder="body" />
+                    {
+                        editMode ? (
+                            <button>수정하기</button>
+                        ) : (
+                            <button>작성하기</button>
+                        )
+                    }
+
+                </form>
+                
+                <button onClick={onPostListPage}>뒤로가기</button>
+            </div>
         );
     }
 }

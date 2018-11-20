@@ -17,11 +17,15 @@ class PostDetail extends Component {
     }
     render() {
         const {post} = this.state;
+        const {postId} = this.props;
+        const { onPostListPage, onPostEditPage } = this.props;
         return (
             <div>
-                <h1>게시물 목록</h1>
-                <div>{post.title}</div>
+                <h1>게시물 상세</h1>
+                <h2>{post.title}</h2>
                 <div>{post.body}</div>
+                <button onClick={onPostListPage}>뒤로가기</button>
+                <button onClick={() => onPostEditPage(postId)}>수정하기</button>
             </div>
         );
     }
