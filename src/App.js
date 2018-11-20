@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import PostList from './components/PostList';
+import PostDetail from './components/PostDetail';
 import './App.css';
+import PostForm from './components/PostForm';
 
 class App extends Component {
   constructor(props){
@@ -10,13 +12,20 @@ class App extends Component {
     // page === 'login' => 로그인 페이지
     // page === 'register' => 회원가입 페이지
     // page === 'post-list' => 게시물 목록 페이지
+    // page === 'post-detail' => 게시물 세부 목록 페이지
+    // page === 'post-form' => 게시물 세부 목록 페이지
     this.state = {
-      page: 'login'
+      page: 'post-list',
+      // 현재 보고있는 게시물의 아이디
+      postId: null
     }
   }
 
-  async componentDidMount(){
-
+  handlePostDetailPage = (id) => {
+    this.setState({
+      page: 'post-detail',
+      postId: id
+    })
   }
 
   handleRegisterPage = (e) => {
@@ -25,9 +34,14 @@ class App extends Component {
       page: 'register'
     })
   }
+  handlePostFormPage = () => {
+    this.setState({
+      page: 'post-form'
+    })
+  }
 
   render() {
-    const {page} = this.state;
+    const { page, postId } = this.state;
     return (
       <div className="App">
       {
@@ -36,7 +50,11 @@ class App extends Component {
         ) : page === 'register' ? (
           <RegisterForm />
         ) : page === 'post-list' ? (
-          <PostList />
+          <PostList onPostDetailPage={this.handlePostDetailPage} onPostFormPage={this.handlePostFormPage}/>
+        ) : page === 'post-detail' ? (
+          <PostDetail postId={postId}/> 
+        ) : page === 'post-form' ? (
+          <PostForm onPostDetailPage={this.handlePostDetailPage}/>
         ) : null
       }
       </div>

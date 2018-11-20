@@ -23,6 +23,7 @@ class PostList extends Component {
 
     render() {
         const {posts, loading} = this.state;
+        const { onPostDetailPage, onPostFormPage } = this.props;
         return (
             <div>
               <h1>게시물 목록</h1>
@@ -30,11 +31,12 @@ class PostList extends Component {
                   {
                       loading ? 'loading...' : (
                             posts.map((post, index) => (
-                                <li key={post.id}>{post.title}</li>
+                                <li key={post.id} onClick={() => onPostDetailPage(post.id)}>{post.title}</li>
                             ))
                       )
                   }
               </ul>
+                <button onClick={onPostFormPage}>write</button>
             </div>
         );
     }

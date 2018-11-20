@@ -30,3 +30,13 @@
     transform: rotate(360deg);
   }
 }
+
+.post-form{
+  width:500px;
+  margin: 0 auto;
+  
+}
+.post-form input, .post-form textarea{
+  width:100%;
+  margin-bottom: 5px;
+}
